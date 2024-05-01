@@ -1,5 +1,6 @@
-async function nme(a : string) : Promise<void>{
-    
-}
+import server from "./server";
+import { PORT } from "./config/envs";
 
-//hp;a
+server.listen(PORT, ()=> {
+    console.log(`Server is listening on PORT ${PORT}`)
+})
