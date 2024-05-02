@@ -1,14 +1,24 @@
-import { Request, Response } from "express"
-import { postUserService, getUserService, deleteUserService } from "../Service/userService"
-import IUser from "../interfaces/IUser"
+import { Request, Response, response } from "express"
 
 
-export const postUser = async (req: Request, res:Response) => {
-    const {name, email, active} = req.body
-    const newUser: IUser = await postUserService({name, email, active})
-    res.status(201).json(newUser)
- }
 
-export const getUser = async () => { }
+export const getUser = async (req: Request, res: Response) => {
+    res.status(200).json("Obtener el listado de todos los usuarios")
 
-export const deleteUser = async () => { }
+}
+
+export const getUserid = async (req: Request, res: Response) => {
+     res.status(200).json("Obtener el detalle de un usuario específico.")
+
+}
+export const postUser = async (req: Request, res: Response) => {
+     res.status(200).json("Registro de un nuevo usuario")
+
+}
+
+export const loginUser = async (req: Request, res: Response) => {
+    res.status(200).json("Login del usuario a la aplicación")
+
+}
+
+

@@ -1,11 +1,16 @@
 import { Router } from "express"
-import { postUser, getUser, deleteUser } from "../controllers/usersController"
+import { postUser, getUserid } from "../controllers/usersController"
+import usersRout from "./userRouter"
+import turnsRout from "./turnsRouter"
+import appointmentRout from "./appointments"
+
+
 
 const router: Router= Router()
 
-router.get("/users")
-router.post("/users", postUser)
-router.delete("/users")
+router.use("/users", usersRout)
+router.use("/appointments", appointmentRout)
+router.use("/appointment", turnsRout)
 
 
 export default router
