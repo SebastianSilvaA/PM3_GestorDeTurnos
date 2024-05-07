@@ -5,9 +5,9 @@ import { getTurns, getTurnsdetail, postAgend, putStatus } from "../controllers/t
 
 const turnsRout = Router()
 
+turnsRout.get("/", getTurns)
 
-
-turnsRout.get("/", getTurnsdetail)
+turnsRout.get("/:id", getTurnsdetail)
 
 turnsRout.post("/schedule", postAgend)
 

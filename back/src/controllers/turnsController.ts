@@ -9,7 +9,8 @@ export const getTurns = async (req: Request, res: Response) => {
 }
 
 export const getTurnsdetail = async (req: Request, res: Response) => {
-     res.status(200).json("Obtener el detalle de un turno específico")
+    const { id } = req.params
+     res.status(200).send(`Obtener el detalle de un turno específico ${id}`)
 
 }
 export const postAgend = async (req: Request, res: Response) => {
