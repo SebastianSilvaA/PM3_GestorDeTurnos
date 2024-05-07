@@ -11,7 +11,7 @@ turnsRout.get("/:id", getTurnsdetail)
 
 turnsRout.post("/schedule", postAgend)
 
-turnsRout.put("/cancel", putStatus)
+turnsRout.put("/cancel/:id", putStatus)
 
 
 export default turnsRout
