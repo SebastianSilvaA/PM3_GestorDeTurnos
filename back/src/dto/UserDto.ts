@@ -1,9 +1,15 @@
+import { IAppointment } from "../types/appointment"
 
 
-interface UserDto {
-    name: string, 
-    email: string,
-    active: boolean
+export class  UserDto {
+    name: string 
+    email: string
+    birthdate: Date
+    dni_number: number
+    username: string
+    password: string 
+    appointments: IAppointment[]
+
 }
 
 

@@ -7,10 +7,12 @@ import { changeStatus, createTurn, getAllTurns, getTurnById } from "../Service/a
 export const getTurns = async (req: Request, res: Response) => {
 
     try {
-        const turns = await getAllTurns()
+        const {userId } = req.query;
+        const turns = await getAllTurns(userId as string)
         res.status(200).json(turns)
-    } catch (error) {
-        throw error
+    } catch (error:any){
+        res.status(404).send("Turns not found")
+        throw new error(error)
     }
    
 
@@ -22,8 +24,9 @@ export const getTurnsdetail = async (req: Request, res: Response) => {
         const { id } = req.params
         const detail = await getTurnById(Number(id))
         res.status(200).send(detail)
-    } catch (error) {
-        throw error 
+    } catch (error:any){
+        res.status(404).send("Turn not found")
+        throw new error(error)
     }
    
 
@@ -32,10 +35,11 @@ export const postAgend = async (req: Request, res: Response) => {
     try {
         const { date, time, userId } = req.body;
         const turn = {date, time, userId}
-        const postTurn = createTurn(turn)
-        res.status(200).json("Agendar un nuevo turno")
-    } catch (error) {
-        
+        const postTurn =  await createTurn(turn)
+        res.status(200).json({message: "turn create", postTurn})
+     } catch (error:any){
+        res.status(400).send("incorrect dates")
+        throw new error(error)
     }
     
 
@@ -45,9 +49,10 @@ export const putStatus = async (req: Request, res: Response) => {
     try {
         const id = req.params.id
         const putStatus = await changeStatus(Number(id))
-        res.status(200).json("Cambiar el estatus de un turno a “cancelled”.")
-    } catch (error) {
-        
+        res.status(200).json({message: "Turn canceled", putStatus})
+    } catch (error:any){
+        res.status(404).send("Turn not found")
+        throw new error(error)
     }
   
 

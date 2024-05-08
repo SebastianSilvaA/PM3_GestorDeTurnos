@@ -8,7 +8,7 @@ export enum Status {
 
 export interface IAppointment {
     id: number,
-    date: string,
+    date: Date,
     time: string,
     status: Status
     userId: IUser["id"]
