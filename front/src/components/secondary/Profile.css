@@ -1,0 +1,9 @@
+.profile img {
+    
+    margin-left: 3rem;
+ width: 5rem;
+}
+
+.profile a :hover {
+ cursor: pointer;
+}

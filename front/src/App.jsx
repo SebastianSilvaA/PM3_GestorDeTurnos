@@ -1,10 +1,12 @@
 import Home from "./views/home"
+import "./App.css"
+import Navbar from "./components/primary/Navbar"
 
 function App() {
 
   return (
     <div>
-<h1>holaaaaaa</h1>
+      <Navbar/>
     <Home/>
     </div>
     )

@@ -1,0 +1,33 @@
+img {
+max-width: 10rem;
+}
+
+
+
+.Nav_bar {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: #F7F7F7;
+}
+
+.Nav_bar_buttons {
+padding: 2rem;
+
+}
+
+
+.Nav_button {
+    margin: 1rem;
+    padding: 1rem;
+    background-color: pink;
+    text-decoration: none;
+}
+
+
+.logo {
+    margin-right: 5rem;
+
+
+    background-color: aqua;
+}
