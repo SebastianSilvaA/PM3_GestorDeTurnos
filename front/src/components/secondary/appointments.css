@@ -1,0 +1,13 @@
+.appointments {
+    display: flex;
+    background-color: white ;
+    justify-content: center;
+    margin: 2rem;
+    font-size: 3rem;
+    color: black;
+    padding: 3rem;
+}
+
+.appointments p {
+    margin-left: 2rem;
+}

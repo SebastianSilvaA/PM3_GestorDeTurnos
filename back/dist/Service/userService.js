@@ -9,22 +9,56 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUserService = exports.getUserService = exports.postUserService = void 0;
-const users = [];
-let id = 1;
-const postUserService = (userData) => __awaiter(void 0, void 0, void 0, function* () {
-    const newUser = {
-        id,
-        name: userData.name,
-        email: userData.email,
-        active: userData.active
-    };
-    users.push(newUser);
-    id++;
-    return newUser;
-});
+exports.getUserById = exports.getAllUser = exports.postUserService = void 0;
+const config_1 = require("../config");
+const user_1 = require("../entities/user");
+const credentialService_1 = require("./credentialService");
+const getAllUser = function () {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const user = config_1.AppDataSource.manager.find(user_1.User);
+            return user;
+        }
+        catch (error) {
+            throw new error(error);
+        }
+    });
+};
+exports.getAllUser = getAllUser;
+const getUserById = function (id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const users = config_1.AppDataSource.getRepository(user_1.User).findOne({
+                where: { id },
+                relations: ["credentials", "appointmentse"]
+            });
+            return users;
+        }
+        catch (error) {
+            throw new error(error);
+        }
+    });
+};
+exports.getUserById = getUserById;
+const postUserService = function (user) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const credentialId = yield (0, credentialService_1.generatedCredential)({ username: user.username, password: user.password });
+            const newUser = yield config_1.AppDataSource.manager.create(user_1.User, {
+                name: user.name,
+                email: user.email,
+                birthdate: user.birthdate,
+                dni_number: user.dni_number,
+                appointments: user.appointments,
+                credentialsId: credentialId
+            });
+            yield config_1.AppDataSource.manager.save(newUser);
+            console.log(newUser);
+            return newUser;
+        }
+        catch (error) {
+            throw error;
+        }
+    });
+};
 exports.postUserService = postUserService;
-const getUserService = () => __awaiter(void 0, void 0, void 0, function* () { });
-exports.getUserService = getUserService;
-const deleteUserService = () => __awaiter(void 0, void 0, void 0, function* () { });
-exports.deleteUserService = deleteUserService;

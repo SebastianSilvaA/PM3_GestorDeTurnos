@@ -1,10 +1,13 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const server_1 = __importDefault(require("./server"));
-const envs_1 = require("./config/envs");
-server_1.default.listen(envs_1.PORT, () => {
-    console.log(`Server is listening on PORT ${envs_1.PORT}`);
+require("reflect-metadata");
+const config_1 = require("./config");
+const server_1 = require("./server");
+config_1.AppDataSource.initialize()
+    .then(() => {
+    console.log("database connected");
+    (0, server_1.serverInit)();
+})
+    .catch((err) => {
+    console.error(err);
 });

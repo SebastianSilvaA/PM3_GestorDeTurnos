@@ -10,19 +10,52 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginUser = exports.postUser = exports.getUserid = exports.getUser = void 0;
+const userService_1 = require("../Service/userService");
+const credentialService_1 = require("../Service/credentialService");
 const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.status(200).json("Obtener el listado de todos los usuarios");
+    try {
+        const users = yield (0, userService_1.getAllUser)();
+        res.status(200).json(users);
+    }
+    catch (error) {
+        throw new error(error);
+    }
 });
 exports.getUser = getUser;
 const getUserid = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.status(200).json("Obtener el detalle de un usuario específico.");
+    try {
+        const { id } = req.params;
+        const user = yield (0, userService_1.getUserById)(Number(id));
+        if (user)
+            res.status(200).json(user);
+        else {
+            res.status(404).send("user not found");
+        }
+    }
+    catch (error) {
+        throw new error(error);
+    }
 });
 exports.getUserid = getUserid;
 const postUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.status(200).json("Registro de un nuevo usuario");
+    try {
+        const user = req.body;
+        yield (0, userService_1.postUserService)(user);
+        res.status(201).json({ message: "Created User: user", user });
+    }
+    catch (error) {
+        res.status(400).send("Incorrect dates");
+        throw new error(error);
+    }
 });
 exports.postUser = postUser;
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.status(200).json("Login del usuario a la aplicación");
+    try {
+    }
+    catch (error) {
+    }
+    const credentials = req.body;
+    const login = yield (0, credentialService_1.checkCredential)(credentials);
+    res.status(200).json({ message: "User logged", login });
 });
 exports.loginUser = loginUser;

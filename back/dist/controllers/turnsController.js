@@ -10,19 +10,53 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.putStatus = exports.postAgend = exports.getTurnsdetail = exports.getTurns = void 0;
+const appointmentService_1 = require("../Service/appointmentService");
 const getTurns = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.status(200).json("Obtener el listado de todos los turnos de todos los usuarios");
+    try {
+        const { userId } = req.query;
+        const turns = yield (0, appointmentService_1.getAllTurns)(userId);
+        res.status(200).json(turns);
+    }
+    catch (error) {
+        res.status(404).send("Turns not found");
+        throw new error(error);
+    }
 });
 exports.getTurns = getTurns;
 const getTurnsdetail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.status(200).json("Obtener el detalle de un turno específico");
+    try {
+        const { id } = req.params;
+        const detail = yield (0, appointmentService_1.getTurnById)(Number(id));
+        res.status(200).send(detail);
+    }
+    catch (error) {
+        res.status(404).send("Turn not found");
+        throw new error(error);
+    }
 });
 exports.getTurnsdetail = getTurnsdetail;
 const postAgend = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.status(200).json("Agendar un nuevo turno");
+    try {
+        const { date, time, userId } = req.body;
+        const turn = { date, time, userId };
+        const postTurn = yield (0, appointmentService_1.createTurn)(turn);
+        res.status(200).json({ message: "turn create", postTurn });
+    }
+    catch (error) {
+        res.status(400).send("incorrect dates");
+        throw new error(error);
+    }
 });
 exports.postAgend = postAgend;
 const putStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.status(200).json("Cambiar el estatus de un turno a “cancelled”.");
+    try {
+        const id = req.params.id;
+        const putStatus = yield (0, appointmentService_1.changeStatus)(Number(id));
+        res.status(200).json({ message: "Turn canceled", putStatus });
+    }
+    catch (error) {
+        res.status(404).send("Turn not found");
+        throw new error(error);
+    }
 });
 exports.putStatus = putStatus;

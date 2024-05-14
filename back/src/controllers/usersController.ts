@@ -9,6 +9,7 @@ export const getUser = async (req: Request, res: Response) => {
         const users = await getAllUser()
         res.status(200).json(users)
     } catch (error:any){
+        res.status(404).send("User not found")
         throw new error(error)
     }
    
@@ -45,13 +46,15 @@ export const postUser = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
     try {
+        const credentials = req.body
+        const login = await checkCredential(credentials)
+        res.status(200).json({message:"User logged", login})
         
-    } catch (error) {
+    } catch (error:any) {
+        res.status(400).send("incorrect credentials")
+        throw new Error(error)
         
     }
-    const credentials = req.body
-    const login = await checkCredential(credentials)
-    res.status(200).json({message:"User logged", login})
 
 }
 
