@@ -1,6 +1,7 @@
 import { Request, Response, response } from "express"
 import { getAllUser, getUserById, postUserService } from "../Service/userService"
 import { checkCredential } from "../Service/credentialService"
+import { ICredential } from "../types/credential"
 
 
 
@@ -44,16 +45,17 @@ export const postUser = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
     try {
-        const credentials = req.body;
-        const loginResponse = await checkCredential(credentials);
-        return res.status(200).json(loginResponse);
-          }
-           catch (error) {
-        res.status(400).send("incorrect credentials");
-        throw new Error("algo salio mal");
+      const credentials: ICredential = req.body;
+      const loginResponse = await checkCredential(credentials);
+      return res.status(200).json(loginResponse);
+    } catch (error:any) {
+      if (error.message === "Usuario no encontrado" || error.message === "Contraseña incorrecta") {
+        return res.status(401).json({ error: error.message });
+      } else {
+        console.error("Error en la autenticación:", error);
+        return res.status(500).json({ error: "Error interno del servidor" });
       }
-    
-
-}
+    }
+  };
 
 

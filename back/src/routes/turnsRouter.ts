@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { getTurns, getTurnsdetail, postAgend, putStatus } from "../controllers/turnsController";
+import { validateTurnData } from "../middlewares/turnValidate";
 
 
 
@@ -9,7 +10,7 @@ turnsRout.get("/", getTurns)
 
 turnsRout.get("/:id", getTurnsdetail)
 
-turnsRout.post("/schedule", postAgend)
+turnsRout.post("/schedule", validateTurnData,postAgend)
 
 turnsRout.put("/cancel/:id", putStatus)
 

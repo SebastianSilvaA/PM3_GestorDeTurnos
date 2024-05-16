@@ -17,7 +17,16 @@ function Login() {
             dispatch(setUserId(res.data.user.id));
             dispatch(updateAppointment(res.data.user.appointments));
             navigate("/");
-        }).catch(err => console.log(err));
+        }).catch(err => {
+           if (err.response.data.error === "Usuario no encontrado") { // Corregido
+                alert("El usuario no existe");
+            } else if (err.response.data.error === "Contraseña incorrecta") {
+                alert("La contraseña es incorrecta");
+            } else {
+                alert("Error desconocido");
+            }
+    
+        } );
     }
 
     return (

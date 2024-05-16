@@ -29,47 +29,43 @@ async function generateCredential(userData: ICredential): Promise<number | undef
     user?: User;
   }
   
-  async function checkCredential({ username, password }: ICredential): Promise<LoginResponse> {
-    try {
-      const credential = await AppDataSource.manager.getRepository(Credential).findOne({
-        where: { username },
-        select: ["id", "password"]
-      });
   
-      if (!credential) {
-        throw new Error("no se pudo encontrar la credencial");
-      }
-  
-      const isValid = comparePassword(password, credential.password);
-      if (!isValid) {
-        throw new Error("invalid credential");
-      }
-  
-      const user = await AppDataSource.manager.getRepository(User).findOne({
-        where: { id: credential.id },
-        relations: ["credentials", "appointments"] 
-      });
 
-      console.log(user);
-      
-  
-      if (!user) {
-        return {
-          message: "User logged",
-          credentialId: credential.id
-        };
-      }
-  
-      return {
-        message: "User logged",
-        credentialId: credential.id,
-        user: user
-      };
-  
-    } catch (error) {
-      throw new Error("algo salio mal");
+async function checkCredential({ username, password }: ICredential): Promise<LoginResponse> {
+  try {
+    const credential = await AppDataSource.manager.getRepository(Credential).findOne({
+      where: { username },
+      select: ["id", "password"]
+    });
+
+    if (!credential) {
+      throw new Error("Usuario no encontrado");
     }
+
+    const isValid = await comparePassword(password, credential.password);
+    if (!isValid) {
+      throw new Error("Contraseña incorrecta");
+    }
+
+    const user = await AppDataSource.manager.getRepository(User).findOne({
+      where: { id: credential.id },
+      relations: ["credentials", "appointments"]
+    });
+
+    if (!user) {
+      throw new Error("No se pudo encontrar la información del usuario");
+    }
+
+    return {
+      message: "Usuario autenticado",
+      credentialId: credential.id,
+      user: user
+    };
+
+  } catch (error:any) {
+    throw new Error(error.message);
   }
+}
 
 export { generateCredential, checkCredential}
 

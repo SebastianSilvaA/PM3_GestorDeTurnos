@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 function Navbar() {
   const userId = useSelector((state) => state.userId);
 
-  // Definir los botones de la barra de navegación
+ 
   const navButtons = [
     { text: "Home", link: "/", visible: true },
     { text: "Login", link: "/login", visible: userId === 0 },
@@ -23,7 +23,7 @@ function Navbar() {
         <img src="../images/donaslogo.jpg" alt="MundoDonas logo" />
       </div>
       <div className="Nav_bar_buttons">
-        {/* Mapear el array de botones para renderizarlos */}
+        
         {navButtons.map((button, index) => (
           button.visible && (
             <Link to={button.link} className="Nav_button" key={index}>
