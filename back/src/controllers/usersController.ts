@@ -33,28 +33,36 @@ try {
 }
 export const postUser = async (req: Request, res: Response) => {
     try {
-        const user = req.body
-        await postUserService(user)     
-   res.status(201).json({message: "Created User: user", user})
-} catch (error:any){
-    res.status(400).send("Incorrect dates")
-    throw new error(error)
-}
-   
-
+        const userData = req.body; // Cambio de nombre a userData para mayor claridad
+        const newUser = await postUserService(userData); // Llamada al servicio con userData
+        res.status(201).json({ message: "Created User", user: newUser }); // Corrección en el mensaje de respuesta
+    } catch (error: any) {
+        res.status(400).send("Incorrect data");
+        throw new Error(error);
+    }
 }
 
 export const loginUser = async (req: Request, res: Response) => {
     try {
-        const credentials = req.body
-        const login = await checkCredential(credentials)
-        res.status(200).json({message:"User logged", login})
+        const credentials = req.body;
+        const loginResponse = await checkCredential(credentials);
         
-    } catch (error:any) {
-        res.status(400).send("incorrect credentials")
-        throw new Error(error)
-        
-    }
+        if (!loginResponse.user) {
+          // Si no se encuentra ningún usuario asociado, devolvemos solo el credentialId
+          return res.status(200).json({
+            message: loginResponse.message,
+            credentialId: loginResponse.credentialId
+          });
+        }
+    
+        // Si se encuentra un usuario asociado, devolvemos toda la respuesta
+        return res.status(200).json(loginResponse);
+    
+      } catch (error) {
+        res.status(400).send("incorrect credentials");
+        throw new Error("algo salio mal");
+      }
+    
 
 }
 

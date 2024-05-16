@@ -1,4 +1,4 @@
-
+import { Credential } from "../entities/credentials";
 
 import { Users } from "../DB/user";
 import { AppDataSource } from "../config";
@@ -6,14 +6,18 @@ import UserDto from "../dto/UserDto";
 import { Appointments } from "../entities/appointments";
 import { User } from "../entities/user";
 import { IUser } from "../types"
-import { generatedCredential } from "./credentialService"
+import { generateCredential } from "./credentialService"
 
 
  const getAllUser = async function(): Promise<User[]> {
     try {
     //return Users;
-    const user = AppDataSource.manager.find(User)
-    return user;
+    const userRepository = AppDataSource.getRepository(User)
+
+    const users = await userRepository.find({
+      relations: ["credentials", "appointments"],
+    });
+    return users;
 
     } catch (error:any){
         throw new error(error)
@@ -27,7 +31,7 @@ const getUserById = async function (id: number) : Promise<User | null> {
 
         const users = AppDataSource.getRepository(User).findOne({
             where: {id},
-            relations: ["credentials", "appointmentse"]
+            relations: ["credentials", "appointments"]
         })
         return users
     } catch (error:any){
@@ -37,25 +41,31 @@ const getUserById = async function (id: number) : Promise<User | null> {
 }
 
 
- const  postUserService =  async function(user: UserDto) : Promise<User>{
-     try {
-        const credentialId = await generatedCredential({username: user.username,  password: user.password})
-        // const id = Users.length + 1
-        const newUser = await AppDataSource.manager.create(User, {
-          name: user.name,
-          email: user.email,
-          birthdate: user.birthdate,
-          dni_number: user.dni_number,
-          appointments: user.appointments,
-          credentialsId: credentialId
-        })
-        await AppDataSource.manager.save(newUser)
-        console.log(newUser)
-        // Users.push(newUser)
-        return newUser
-     } catch (error: any) {
-          throw  error
+const postUserService = async function(userData: UserDto): Promise<User> {
+    try {
+        let newUser: User;
+        const credentialsId = await generateCredential(userData);
+        
+        // Obtener las credenciales completas a partir del ID
+        const credentials: Credential | null = await AppDataSource.manager.findOne(Credential, { where: { id: credentialsId } });
+
+        if (!credentials) {
+            throw new Error("Credentials not found");
+        }
+
+        newUser = new User();
+        newUser.name = userData.name;
+        newUser.email = userData.email;
+        newUser.birthdate = userData.birthdate;
+        newUser.dni_number = userData.dni_number;
+        newUser.credentials = credentials; // Asignamos las credenciales completas a la relación
+
+        await AppDataSource.manager.save(newUser);
+        return newUser;
+    } catch (error: any) {
+        throw error;
     }
- }
+}
+
 
  export { postUserService, getAllUser, getUserById}

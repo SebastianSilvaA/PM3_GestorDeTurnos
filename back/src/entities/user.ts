@@ -20,11 +20,11 @@ email: string
 dni_number: number
 
 @OneToOne(() => Credential)
-@JoinColumn({name: "credentialId"})
+@JoinColumn({name: "credentialsId"})
 credentials: Credential
 
-@OneToMany(() => Appointments, appointmentse => appointmentse.user)
+@OneToMany(() => Appointments, appointments => appointments.user)
 
-appointmentse: Appointments[]
+appointments: Appointments[]
 
 }

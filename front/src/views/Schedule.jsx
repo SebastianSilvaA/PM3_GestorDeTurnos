@@ -1,13 +1,25 @@
 import { useState } from "react";
 import validateAppointment from "./validate";
 import { postSchedule } from "../helpers/getAppointments";
+import { useDispatch, useSelector } from "react-redux";
+import { updateAppointment } from "../redux/Slice";
 
 export default function Schedule() {
+
+    const dispatch = useDispatch()
+
+    const userId = useSelector((state) => state.userId)
+    console.log(userId);
+
+    
     const [appointment, setAppointment ] = useState({
         date: "",
-        time: ""
+        time: "",
+        status:"",
+        userId: 0
 
     })
+    console.log(appointment)
 
     const [errors, setErrors] = useState({
         date: "",
@@ -15,7 +27,7 @@ export default function Schedule() {
     })
 
     function handleChange(e) {
-        const newAppointment = {...appointment, [e.target.name]: e.target.value}
+        const newAppointment = {...appointment, [e.target.name]: e.target.value, userId: userId}
         setAppointment(newAppointment)
         const validationErrors = validateAppointment(newAppointment)
         setErrors({...validationErrors})
@@ -24,10 +36,18 @@ export default function Schedule() {
     function handleSubmit(e) {
         e.preventDefault()
         if (Object.keys(errors).length === 0) {
-            postSchedule(appointment).then(res => alert("Appointment creado"), setAppointment({
-                date: "",
-                time: ""
-            })).catch(err => console.log(err))
+            postSchedule(appointment).then((res ) => {
+                alert("Appointment creado")
+                const status = res.postTurn.status
+                console.log(status)
+                dispatch(updateAppointment([...res.postTurn.user.appointments, {time: res.postTurn.time, date: res.postTurn.date, status: res.postTurn.status, id: res.postTurn.id}]))
+                 setAppointment({
+                    date: "",
+                    time: ""
+                })
+                
+               
+            }).catch(err => console.log(err))
             console.log(appointment)
         } else {
             alert("revisa hay erroes")

@@ -2,7 +2,7 @@ import { IUser } from "./user"
 
 
 export enum Status {
-    ACTIVE = "ACTTIVE",
+    ACTIVE = "ACTIVE",
     CANCELED = "CANCELED"
 }
 

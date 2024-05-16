@@ -8,6 +8,7 @@ export const getTurns = async (req: Request, res: Response) => {
 
     try {
         const {userId } = req.query;
+        console.log(userId)
         const turns = await getAllTurns(userId as string)
         res.status(200).json(turns)
     } catch (error:any){

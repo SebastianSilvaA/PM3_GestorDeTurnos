@@ -1,24 +1,39 @@
 
 import { useEffect, useState } from "react"
 
+
 import Appointment from "../secondary/Appointment"
-import { getAppointment } from "../../helpers/getAppointments"
+import { canceledAppointment, getAppointment, getUser } from "../../helpers/getAppointments"
+import { useDispatch, useSelector } from "react-redux"
+import { cancelAppointment, updateAppointment } from "../../redux/Slice"
 
 export default function Appointments() {
-    const [Appointments, setAppointment] = useState([])
+    const appointments = useSelector((state) => state.userAppointments)
+    
+    
+    
 
-   
+    console.log(appointments);
+  
 
-    useEffect(() => {
-        getAppointment().then((res) => setAppointment(res)).catch((error)=> console.error(error))
-        
-    }, [])
+    
+                
 
     return (
+        
         <div>
-        {Appointments.length > 0 && Appointments.map(function (appointmento) {
+        {appointments.length > 0 && appointments.map(function (appointmento) {
+
+
             
-            return <Appointment key={appointmento.id} date={appointmento.date} time={appointmento.time} />
+
+            
+            return(
+                <div>
+        <Appointment  key={appointmento.id} date={appointmento.date} time={appointmento.time} status={appointmento.status} id={appointmento.id} />
+        
+                </div>
+            ) 
         }) } 
     </div>
     )

@@ -15,8 +15,8 @@ export async function  getAppointment () {
 }
 
  async function postSchedule (appointment) {
-    const {userId} = appointment
-      const response = await axios.post("http://localhost:3000/appointment/schedule", {...appointment, userId})
+    console.log(appointment);
+      const response = await axios.post("http://localhost:3000/appointment/schedule", appointment)
       return response.data
 }
 
@@ -35,6 +35,17 @@ async function postUserLogin(user) {
     return response
 }
 
-export {postSchedule, postUserRegister, postUserLogin}
+
+async function canceledAppointment(id) {
+    const response = await axios.put(`http://localhost:3000/appointment/cancel/${id}`)
+    return response.data
+}
+
+async function getUser(id) {
+    const response = await axios.get(`http://localhost:3000/users/${id}`)
+    return response
+}
+
+export {postSchedule, postUserRegister, postUserLogin, canceledAppointment, getUser}
 
 

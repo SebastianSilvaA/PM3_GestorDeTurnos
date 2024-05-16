@@ -47,6 +47,7 @@ const createTurn = async function (turn : turnDto)  {
     try {
       const user = await AppDataSource.getRepository(User).findOne({
         where:  {id : turn.userId},
+        relations: ["appointments"]
       })
       if (!user) {
         throw new Error("User for this appointment not found")
@@ -54,6 +55,7 @@ const createTurn = async function (turn : turnDto)  {
       const app = {
         date: turn.date,
         time: turn.time,
+        
 
       }
       const newTurn = await AppDataSource.getRepository(Appointments).save({

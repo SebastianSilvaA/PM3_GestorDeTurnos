@@ -17,7 +17,7 @@ export class Appointments {
     @Column({type: "enum", enum: Status, default: Status.ACTIVE})
     status: Status
      
-    @ManyToOne(() => User, user => user.appointmentse)
+    @ManyToOne(() => User, user => user.appointments)
     user: User
    
 }
