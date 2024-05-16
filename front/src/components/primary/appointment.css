@@ -1,0 +1,41 @@
+.appointments-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.appointment-card {
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 40rem; /* Aumenta el ancho de la tarjeta */
+}
+
+.appointment-card:last-child {
+    margin-bottom: 0; /* Elimina el margen inferior del último elemento */
+}
+
+.appointment-card h2 {
+    margin: 2rem;
+}
+
+.appointment-card p {
+    margin: 2rem;
+}
+
+.status-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.status-button:hover {
+    transition: 2s;
+    background-color: red;
+}

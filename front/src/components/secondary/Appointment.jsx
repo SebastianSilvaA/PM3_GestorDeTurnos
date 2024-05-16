@@ -4,6 +4,7 @@ import { canceledAppointment,getUser } from "../../helpers/getAppointments"
 import "./appointments.css"
 import { updateAppointment } from "../../redux/Slice"
 
+
  export default function Appointment (appointmento) {
 
    
@@ -30,5 +31,5 @@ import { updateAppointment } from "../../redux/Slice"
 
    
     return (<div className="appointments" ><h2>{appointmento.date}</h2> <p>{appointmento.time}</p>
-    <button onClick={handleAccept}>{appointmento.status}</button> </div>)
+    <button className="status-button" onClick={handleAccept}>{appointmento.status}</button> </div>)
 }

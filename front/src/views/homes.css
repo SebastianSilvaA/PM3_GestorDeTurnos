@@ -1,0 +1,43 @@
+
+
+
+.nuestroProductos h1{
+    text-align: center;
+    margin-top: 20px;
+    font-size: 5rem;
+   margin: 3rem;
+    
+  }
+  
+  .donasContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+  }
+  
+  .card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    max-width: 10rem;
+    background-color: pink;
+    width: calc(33.33% - 20px); 
+    margin-bottom: 5rem;
+    margin-top: 5rem;
+    margin: 2rem;
+  }
+  
+  .card img {
+    width: 100%;
+    border-radius: 8px;
+    height: 100%
+  }
+  
+  .card h2 {
+    margin-top: 10px;
+    font-size: 2rem;
+    font-family: "Poetsen One", sans-serif;
+    margin-bottom: 1rem;
+    
+  }

@@ -7,36 +7,23 @@ import { canceledAppointment, getAppointment, getUser } from "../../helpers/getA
 import { useDispatch, useSelector } from "react-redux"
 import { cancelAppointment, updateAppointment } from "../../redux/Slice"
 
-export default function Appointments() {
-    const appointments = useSelector((state) => state.userAppointments)
-    
-    
-    
+import "./appointment.css"; 
 
+export default function Appointments() {
+    const appointments = useSelector((state) => state.userAppointments);
+    const dispatch = useDispatch();
+    
     console.log(appointments);
   
-
-    
-                
-
     return (
-        
-        <div>
-        {appointments.length > 0 && appointments.map(function (appointmento) {
-
-
-            
-
-            
-            return(
-                <div>
-        <Appointment  key={appointmento.id} date={appointmento.date} time={appointmento.time} status={appointmento.status} id={appointmento.id} />
-        
-                </div>
-            ) 
-        }) } 
-    </div>
-    )
-    
-    
+        <div className="appointments-container">
+            {appointments.length > 0 && appointments.map(function (appointment) {
+                return (
+                    <div key={appointment.id} className="appointment-card">
+                        <Appointment date={appointment.date} time={appointment.time} status={appointment.status} id={appointment.id} />
+                    </div>
+                ); 
+            })}
+        </div>
+    );
 }

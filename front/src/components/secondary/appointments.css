@@ -11,3 +11,20 @@
 .appointments p {
     margin-left: 2rem;
 }
+
+
+.status-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  
+  
+  .status-button:hover {
+    background-color: red;
+  }
+  

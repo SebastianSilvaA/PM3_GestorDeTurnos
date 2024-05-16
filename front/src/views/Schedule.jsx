@@ -3,6 +3,7 @@ import validateAppointment from "./validate";
 import { postSchedule } from "../helpers/getAppointments";
 import { useDispatch, useSelector } from "react-redux";
 import { updateAppointment } from "../redux/Slice";
+import "./schedule.css"
 
 export default function Schedule() {
 
@@ -56,7 +57,7 @@ export default function Schedule() {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form  className="form-container"onSubmit={handleSubmit}>
         <label >
             Date:
             <input
@@ -77,8 +78,8 @@ export default function Schedule() {
             <p>{errors.time}</p>
         </label>
         <div>
-            <button type="button"> Cancel</button>
-            <button type="submit"> Create Appointment</button>
+            <button className="cancel-button" type="button"> Cancel</button>
+            <button className="submit-button" type="submit"> Create Appointment</button>
         </div>
         </form>
     )

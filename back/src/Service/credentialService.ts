@@ -49,6 +49,9 @@ async function generateCredential(userData: ICredential): Promise<number | undef
         where: { id: credential.id },
         relations: ["credentials", "appointments"] 
       });
+
+      console.log(user);
+      
   
       if (!user) {
         return {
